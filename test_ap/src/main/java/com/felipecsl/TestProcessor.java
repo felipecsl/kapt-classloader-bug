@@ -10,11 +10,9 @@ import java.util.Collections;
 import java.util.Set;
 
 public class TestProcessor extends AbstractProcessor {
-  private Trees trees;
-
   @Override public synchronized void init(ProcessingEnvironment env) {
     super.init(env);
-    trees = Trees.instance(processingEnv);
+    Trees.instance(processingEnv);
   }
 
   @Override
@@ -24,8 +22,6 @@ public class TestProcessor extends AbstractProcessor {
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    throw new RuntimeException("boom");
-//    System.out.println("Processing a file...");
-//    return false;
+    return false;
   }
 }

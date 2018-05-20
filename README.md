@@ -1,4 +1,4 @@
-# Kotlin kapt Classloader bug
+# Kotlin kapt ClassLoader bug
 
 This repository illustrates a POC for a bug with the Kotlin kapt compiler as of version 1.2.40
 

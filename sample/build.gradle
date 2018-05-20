@@ -23,7 +23,9 @@ repositories {
 
 runShadow {
   dependsOn ':test_ap:assemble'
-  jvmArgs '-verbose:class'
+  systemProperty 'PROJECT_PATH', rootProject.projectDir.absolutePath
+  // Uncomment below if you want to see the verbose class loading output
+  // jvmArgs '-verbose:class'
 }
 
 compileKotlin {
