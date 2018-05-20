@@ -1,0 +1,29 @@
+buildscript {
+  ext.kotlin_version = '1.2.41'
+
+  repositories {
+    jcenter()
+  }
+}
+
+plugins {
+  id('org.jetbrains.kotlin.jvm').version("1.2.41")
+  id('application')
+  id "com.github.johnrengelman.plugin-shadow" version "2.0.3"
+}
+
+group 'com.felipecsl'
+version '1.0-SNAPSHOT'
+
+mainClassName = "com.felipecsl.Sample"
+
+repositories {
+  jcenter()
+}
+
+compileKotlin {
+  kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+  kotlinOptions.jvmTarget = "1.8"
+}

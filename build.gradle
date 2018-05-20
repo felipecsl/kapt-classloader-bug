@@ -1,0 +1,14 @@
+allprojects {
+  buildscript {
+    repositories {
+      jcenter()
+    }
+  }
+
+  group 'com.felipecsl'
+  version '1.0-SNAPSHOT'
+
+  repositories {
+    jcenter()
+  }
+}
