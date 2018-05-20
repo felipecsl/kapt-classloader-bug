@@ -68,7 +68,8 @@ with several annotation processors that share this same characteristic, includin
 The `ClassCastException` happens because the kapt compiler itself already depends on some of the JDK
 Tree APIs as you can see [here](https://github.com/JetBrains/kotlin/blob/b1d7935d4a1e40fbb0bfb029accd44e8d1398a18/plugins/kapt3/kapt3-compiler/src/org/jetbrains/kotlin/kapt3/annotationProcessing.kt#L25).
 When first loaded, this causes some of these classes (including `JavacTrees`) to be loaded transitively by the [`ClassLoader` below](https://github.com/felipecsl/kapt-classloader-bug/blob/54c63939252b9e3d011bb5218f6a88f32c5b0be9/sample/src/main/java/com/felipecsl/Sample.java#L79-L83):
-```
+
+```java
 private Object loadCompilerShim() throws Exception {
   ClassLoader parentClassLoader = ToolProvider.getSystemToolClassLoader();
   URLClassLoader classLoader = new URLClassLoader(COMPILER_CLASSPATH, parentClassLoader);
@@ -78,7 +79,7 @@ private Object loadCompilerShim() throws Exception {
 
 When `K2JVMCompiler` runs, it tries to load the annotation processors using a [brand new `ClassLoader`](https://github.com/JetBrains/kotlin/blob/b1d7935d4a1e40fbb0bfb029accd44e8d1398a18/plugins/kapt3/kapt3-compiler/src/org/jetbrains/kotlin/kapt3/Kapt3Extension.kt#L103-L105):
 
-```
+```kotlin
 val classpath = annotationProcessingClasspath + compileClasspath
 val classLoader = URLClassLoader(classpath.map { it.toURI().toURL() }.toTypedArray())
 this.annotationProcessingClassLoader = classLoader
@@ -92,17 +93,17 @@ val processors = if (annotationProcessorFqNames.isNotEmpty()) {
 ```
 
 This means that `Trees` ends up being loaded again in `Trees#getJavacTrees` by the second classloader, as shown below:
-```
+```java
 static Trees getJavacTrees(Class<?> argType, Object arg) {
-    try {
-        ClassLoader cl = arg.getClass().getClassLoader();
-        Class<?> c = Class.forName("com.sun.tools.javac.api.JavacTrees", false, cl);
-        argType = Class.forName(argType.getName(), false, cl);
-        Method m = c.getMethod("instance", new Class<?>[] { argType });
-        return (Trees) m.invoke(null, new Object[] { arg });
-    } catch (Throwable e) {
-        throw new AssertionError(e);
-    }
+  try {
+     ClassLoader cl = arg.getClass().getClassLoader();
+     Class<?> c = Class.forName("com.sun.tools.javac.api.JavacTrees", false, cl);
+     argType = Class.forName(argType.getName(), false, cl);
+     Method m = c.getMethod("instance", new Class<?>[] { argType });
+     return (Trees) m.invoke(null, new Object[] { arg });
+  } catch (Throwable e) {
+    throw new AssertionError(e);
+  }
 }
 ```
 
