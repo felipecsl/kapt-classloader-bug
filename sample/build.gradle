@@ -21,6 +21,11 @@ repositories {
   jcenter()
 }
 
+runShadow {
+  dependsOn ':test_ap:assemble'
+  jvmArgs '-verbose:class'
+}
+
 compileKotlin {
   kotlinOptions.jvmTarget = "1.8"
 }

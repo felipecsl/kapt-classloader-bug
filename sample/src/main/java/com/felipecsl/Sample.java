@@ -16,15 +16,15 @@ public class Sample {
   private static final String KOTLIN_SCRIPT_RUNTIME_PATH = PROJECT_PATH + "/kotlin_home/libexec/lib/kotlin-script-runtime.jar";
   private static final String KOTLIN_COMPILER_PATH = PROJECT_PATH + "/kotlin_home/libexec/lib/kotlin-compiler.jar";
   private static final String KOTLIN_APT_GRADLE = PROJECT_PATH + "/kotlin_home/libexec/lib/kotlin-annotation-processing-gradle.jar";
-  private static final String JVM_HOME = "/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home";
+  private static final String JVM_HOME = System.getenv("JAVA_HOME");
   private static final String TOOLS_JAR_PATH = JVM_HOME + "/lib/tools.jar";
   private static final String OUTPUT_DIR = PROJECT_PATH + "/output";
   private static final String CLASSPATH =
       ":" + TOOLS_JAR_PATH
-      + ":" + KOTLIN_COMPILER_PATH
-      + ":" + KOTLIN_REFLECT_PATH
-      + ":" + KOTLIN_STDLIB_PATH
-      + ":" + KOTLIN_SCRIPT_RUNTIME_PATH;
+          + ":" + KOTLIN_COMPILER_PATH
+          + ":" + KOTLIN_REFLECT_PATH
+          + ":" + KOTLIN_STDLIB_PATH
+          + ":" + KOTLIN_SCRIPT_RUNTIME_PATH;
   private static final URL[] COMPILER_CLASSPATH = new URL[4];
 
   static {
@@ -58,16 +58,14 @@ public class Sample {
         "plugin:org.jetbrains.kotlin.kapt3:aptMode=apt,"
             + "plugin:org.jetbrains.kotlin.kapt3:apclasspath=" + KOTLIN_APT_GRADLE + ","
             + "plugin:org.jetbrains.kotlin.kapt3:apclasspath=" + PROJECT_PATH + "/test_ap/build/libs/test_ap-1.0-SNAPSHOT.jar,"
-//            + "plugin:org.jetbrains.kotlin.kapt3:apclasspath=" + PROJECT_PATH + "/inputs/butterknife-compiler-9.0.0-20180416.155025-37.jar,"
             + "plugin:org.jetbrains.kotlin.kapt3:useLightAnalysis=true,"
             + "plugin:org.jetbrains.kotlin.kapt3:correctErrorTypes=false,"
             + "plugin:org.jetbrains.kotlin.kapt3:verbose=true,"
             + "plugin:org.jetbrains.kotlin.kapt3:sources=" + OUTPUT_DIR + "/sources,"
             + "plugin:org.jetbrains.kotlin.kapt3:classes=" + OUTPUT_DIR + "/classes,"
             + "plugin:org.jetbrains.kotlin.kapt3:stubs=" + OUTPUT_DIR + "/stubs,"
-            + "plugin:org.jetbrains.kotlin.kapt3:incrementalData=" + OUTPUT_DIR + "/incrementalData" +
-//            + "plugin:org.jetbrains.kotlin.kapt3.apoptions=",
-            "-Werror",
+            + "plugin:org.jetbrains.kotlin.kapt3:incrementalData=" + OUTPUT_DIR + "/incrementalData",
+        "-Werror",
         "-Xplugin=" + KOTLIN_APT_GRADLE,
         PROJECT_PATH + "/inputs"
     };
