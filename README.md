@@ -84,11 +84,11 @@ val classpath = annotationProcessingClasspath + compileClasspath
 val classLoader = URLClassLoader(classpath.map { it.toURI().toURL() }.toTypedArray())
 this.annotationProcessingClassLoader = classLoader
 val processors = if (annotationProcessorFqNames.isNotEmpty()) {
-    logger.info("Annotation processor class names are set, skip AP discovery")
-    annotationProcessorFqNames.mapNotNull { tryLoadProcessor(it, classLoader) }
+  logger.info("Annotation processor class names are set, skip AP discovery")
+  annotationProcessorFqNames.mapNotNull { tryLoadProcessor(it, classLoader) }
 } else {
-    logger.info("Need to discovery annotation processors in the AP classpath")
-    ServiceLoader.load(Processor::class.java, classLoader).toList()
+  logger.info("Need to discovery annotation processors in the AP classpath")
+  ServiceLoader.load(Processor::class.java, classLoader).toList()
 }
 ```
 
@@ -119,6 +119,12 @@ This can be validated by running the jvm with `-verbose:class`:
 ```
 
 You can see `com.sun.source.util.Trees` shows up twice, which confirms our theory.
+
+## Additional resources
+
+* [Issue KT-20233](https://youtrack.jetbrains.com/oauth?state=%2Fissue%2FKT-20233)
+* https://github.com/damianw/KaptInProcessBug
+* https://github.com/mmdango/okbuck_kapt_mwe
 
 
 ## License
