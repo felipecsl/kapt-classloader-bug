@@ -123,6 +123,7 @@ You can see `com.sun.source.util.Trees` shows up twice, which confirms our theor
 ## Additional resources
 
 * [Issue KT-20233](https://youtrack.jetbrains.com/oauth?state=%2Fissue%2FKT-20233)
+* [KT-24540](https://youtrack.jetbrains.com/issue/KT-24540)
 * https://github.com/damianw/KaptInProcessBug
 * https://github.com/mmdango/okbuck_kapt_mwe
 
